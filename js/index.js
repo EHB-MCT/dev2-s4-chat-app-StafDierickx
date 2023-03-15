@@ -5,12 +5,14 @@ const chat = {
     message: [],
     init() {
         this.fetchMessages();
-        document.querySelector("#sendButton").addEventListener("click", this.sendMessage);
+        document
+            .querySelector("#sendButton")
+            .addEventListener("click", this.sendMessage);
     },
     sendMessage() {
         const messageInput = document.querySelector("#chatInput");
         console.log(messageInput.value);
-        let data = { author: 'Jhon Doe', message: messageInput.value };
+        let data = { author: "Jhon Doe", message: messageInput.value };
 
         fetch("https://dev2chat.onrender.com/message", {
             method: "POST",
@@ -20,7 +22,7 @@ const chat = {
             console.log("Request complete! response:", res);
         });
 
-        this.fetchMessages();
+        chat.fetchMessages();
     },
 
     fetchMessages() {
@@ -50,11 +52,15 @@ const chat = {
                     ${message.message}
                 </p>
             `;
-            console.log("writing message to the DOM", message);
+            // console.log("writing message to the DOM", message);
             messageContainer.append(messageElement);
         });
     },
 };
 
-
 chat.init();
+
+window.setInterval(function () {
+    chat.fetchMessages();
+    console.log("refreshing messages");
+}, 5000);
